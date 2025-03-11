@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  :root {
+    --background: 207 95% 8%;
+    --foreground: 201 83% 81%;
+    --muted: 207 12% 15%;
+    --muted-foreground: 207 12% 65%;
+    --popover: 207 95% 5%;
+    --popover-foreground: 201 83% 91%;
+    --card: 207 95% 6%;
+    --card-foreground: 201 83% 86%;
+    --border: 207 85% 13%;
+    --input: 207 85% 16%;
+    --primary: 205 85% 78%;
+    --primary-foreground: 205 85% 18%;
+    --secondary: 205 30% 25%;
+    --secondary-foreground: 205 30% 85%;
+    --accent: 207 95% 23%;
+    --accent-foreground: 207 95% 83%;
+    --destructive: 8 91% 59%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 205 85% 78%;
+    --chart-1: 205 85% 78%;
+    --chart-2: 205 30% 25%;
+    --chart-3: 207 95% 23%;
+    --chart-4: 205 30% 28%;
+    --chart-5: 205 88% 78%;
+    --radius: 0.5rem;
+  }
+}
