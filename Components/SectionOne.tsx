@@ -15,11 +15,11 @@ const SectionOne: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const subtitles: string[] = [
-    "NOVA",
-    "UI/UX",
-    "Christmas",
-    "3D",
-    "Art",
+    "SUSPENSION",
+    "TOP_NOTCH",
+    "CAR",
+    "LOCATION",
+    "GUARANTEE",
   ];
 
   const caseStudies: CaseStudy[] = [

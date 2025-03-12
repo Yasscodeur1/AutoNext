@@ -32,4 +32,15 @@
     --chart-5: 205 88% 78%;
     --radius: 0.5rem;
   }
+
+  html {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: background-color 0.3s, color 0.3s; /* Transition ajoutée */
+  }
+
+  html.dark {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
 }

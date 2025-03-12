@@ -1,18 +1,10 @@
 import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-  images: {
-    domains: ['images.unsplash.com'],
-  },
+  /* config options here */
 };
 
-module.exports = nextConfig;
-
-
 export default nextConfig;
-module.exports = nextConfig;
-
 
 
 module.exports = {
@@ -20,3 +12,4 @@ module.exports = {
     domains: ['images.pexels.com'], // Ajoute ici les domaines de tes images
   },
 };
+

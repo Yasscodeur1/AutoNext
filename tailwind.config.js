@@ -1,14 +1,12 @@
 // tailwind.config.js
-const {heroui} = require("@heroui/theme");
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./node_modules/@heroui/theme/dist/components/navbar.js",
-  ],
-  theme: {
-    extend: {},
-  },
-  darkMode: "class",
-  plugins: [heroui()],
+export const darkMode = 'class';
+export const content = [
+  './pages/**/*.{js,ts,jsx,tsx}', // Cherche les classes Tailwind dans les pages
+  './components/**/*.{js,ts,jsx,tsx}', // Cherche les classes Tailwind dans les composants
+];
+export const theme = {
+  extend: {},
 };
+export const plugins = [
+  require('@tailwindcss/forms'), // Exemple de plugin supplémentaire
+];

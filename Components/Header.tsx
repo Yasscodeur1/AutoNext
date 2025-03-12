@@ -10,10 +10,10 @@ import {
   Link,
   Button,
 } from "@heroui/react";
-import AcmeLogo from "./ui/AcmeLogo";
-import { MenuIcon, XIcon } from "@heroicons/react/outline"; // Importez les icônes
-import { ShoppingCart } from "lucide-react";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import CartIcon from "./ui/carteIcon";
+import ThemeToggle from "./ButtonDarkMode";
+import ButtonFavoris from "./ui/ButtonFavoris";
 
 const NavBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +34,6 @@ const NavBar: React.FC = () => {
   return (
     <Navbar className="flex justify-between fixed top-0 left-0 w-full z-50 bg-gray-50 shadow-md backdrop-blur-md">
       <NavbarBrand className="ml-20">
-        {/* <AcmeLogo /> */}
         <Image
           className=" rounded-4xl"
           src={"/LogoAuto.png"}
@@ -42,12 +41,11 @@ const NavBar: React.FC = () => {
           height={30}
           alt={""}
         />
-        {/* <p className="font-bold text-inherit">AUTO</p> */}
       </NavbarBrand>
 
       {/* Menu Burger Button */}
       <div className="lg:hidden flex items-center">
-        <button onClick={toggleMenu} className="p-2">
+        <button onClick={toggleMenu} className="p-2 z-50">
           {isMenuOpen ? (
             <XIcon className="h-6 w-6" />
           ) : (
@@ -58,47 +56,23 @@ const NavBar: React.FC = () => {
 
       {/* Menu Mobile */}
       <div
-        className={`lg:hidden absolute top-full left-0 w-full bg-gray-50 shadow-md transition-all duration-300 transform ${
+        className={`lg:hidden absolute top-full left-0 w-full bg-gray-50 shadow-md transition-all duration-300 transform z-40 ${
           isMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
-        style={{ maxHeight: "calc(100vh - 56px)" }} // Limiter la hauteur du menu mobile
+        style={{ maxHeight: "calc(100vh - 56px)" }}
       >
         <div className="flex flex-col items-center p-5">
-          <NavbarItem>
-            <Link
-              className="p-5 hover:border-b-2 hover:border-b-cyan-900"
-              color="foreground"
-              href="/"
-            >
-              Home
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link
-              className="p-5 hover:border-b-2 hover:border-b-cyan-900"
-              aria-current="page"
-              href="products"
-            >
-              Products
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link
-              className="p-5 hover:border-b-2 hover:border-b-cyan-900"
-              color="foreground"
-              href="#"
-            >
-              Details
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link href="#">Login</Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Button as={Link} color="primary" href="#" variant="flat">
-              Sign Up
-            </Button>
-          </NavbarItem>
+          {links.map((link, index) => (
+            <NavbarItem key={index}>
+              <Link
+                className="p-5 hover:border-b-2 hover:text-2xl"
+                color="foreground"
+                href={link.path}
+              >
+                {link.name}
+              </Link>
+            </NavbarItem>
+          ))}
         </div>
       </div>
 
@@ -106,20 +80,25 @@ const NavBar: React.FC = () => {
       <NavbarContent className="hidden lg:flex gap-4 p-5" justify="center">
         <NavbarItem>
           {links.map((link, index) => (
-          <Link
-            key={index}
-            className={`p-3 hover:border-b-2 hover:border-b-cyan-900 ${
-              link.name === "Contact" ? "mr-40" : ""}`}
-            color="foreground"
-            href={link.path}
-            
-          >
-            {link.name}
-          </Link>
+            <Link
+              key={index}
+              className={`p-3  hover:text-2xl hover:font-bold ${
+                link.name === "Contact" ? "mr-40" : ""
+              }`}
+              color="foreground"
+              href={link.path}
+            >
+              {link.name}
+            </Link>
           ))}
         </NavbarItem>
       </NavbarContent>
-      <CartIcon/>
+      <div className="flex gap-7">
+      <CartIcon />
+      <ButtonFavoris isFavorited={false}/>
+      <ThemeToggle />
+      </div>
+      
     </Navbar>
   );
 };

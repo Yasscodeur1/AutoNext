@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 type CarBrand = {
@@ -27,7 +26,7 @@ const Carousel = () => {
     <div className="relative w-full overflow-hidden bg-gray-400 py-6">
       <motion.div
         className="flex w-max flex-nowrap"
-        animate={{ x: ["0%", "-100%"] }}
+        animate={{ x: ["100%", "-100%"] }}
         transition={{
           ease: "linear",
           duration: 15,
