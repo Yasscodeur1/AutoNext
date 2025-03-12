@@ -7,7 +7,6 @@ import HeaderProducts from "@/Components/Header.products";
 import Section2 from "@/Components/carousel.products";
 import Search from "@/Components/Search"; // Vérifie que c'est bien "Search" et pas "search"
 
-
 const CarsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,13 +74,13 @@ const CarsPage = () => {
       <Section2 />
 
       {/* Barre de recherche et filtre de marque */}
-      <div className="flex flex-wrap  p-4">
+      <div className="flex justify-around gap-96 flex-wrap p-4">
         <Search onSearch={handleSearch} darkMode={darkMode} />
 
         <select
           value={make_id}
           onChange={handleSelect}
-          className="p-2 border rounded"
+          className="p-2 h-15 m-8 rounded"
           style={{
             backgroundColor: darkMode ? "#374151" : "white",
             color: darkMode ? "white" : "black",
@@ -99,7 +98,7 @@ const CarsPage = () => {
 
       {/* Affichage des voitures */}
       <div className="container mx-auto p-4">
-        <Card>
+        <Card className="border-0 shadow-0">
           <CardHeader>
             <h1 className="text-2xl font-bold">Voitures disponibles</h1>
           </CardHeader>
@@ -113,7 +112,7 @@ const CarsPage = () => {
                 {filteredCars.map((car: typageCar) => (
                   <li
                     key={car.id}
-                    className="border rounded-lg shadow-lg overflow-hidden"
+                    className={`border-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-800`}
                   >
                     <img
                       className="w-full h-84"
@@ -121,22 +120,27 @@ const CarsPage = () => {
                       alt={car.model}
                     />
                     <div className="p-4">
-                      <h2 className="text-lg font-semibold">
+                      <h2 className="text-lg font-semibold m-1.5">
                         {car.make_id} - {car.model}
                       </h2>
-                      <p className="text-gray-500">Couleur : {car.color}</p>
-                      <p className="text-gray-500">Prix : ${car.price}</p>
+                      <p className="text-gray-500 m-1.5">Couleur : {car.color}</p>
+                      <p className="text-gray-500 m-1.5">Prix : ${car.price}</p>
                       {/* <p className="text-gray-700">{car.description}</p> */}
-                      <div className="mt-4 flex justify-between">
+                      <div className="mt-4 flex justify-between m-1.5">
                         <p className="text-sm text-gray-600">
                           {car.city}, {car.state} {car.postal}
                         </p>
                         <Link href={`/details/${car.id}`}>
-                          <span className="bg-blue-400 cursor-pointer px-4 py-2 rounded">
+                          <span className="underline cursor-pointer px-4 py-2 rounded">
                             Détails
                           </span>
                         </Link>
                       </div>
+                      <Link href={`/details/${car.id}`}>
+                          <span className="bg-blue-400 cursor-pointer px-4 py-2 rounded flex justify-center m-1.5">
+                            Add to carte
+                          </span>
+                        </Link>
                     </div>
                   </li>
                 ))}

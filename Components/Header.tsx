@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <Navbar className="flex justify-between fixed top-0 left-0 w-full z-50 bg-gray-50 shadow-md backdrop-blur-md">
+    <Navbar className="flex justify-between fixed top-0 left-0 w-full z-50 bg-gray-50 shadow-md backdrop-blur-md dark:bg-gray-700 dark:text-gray-50">
       <NavbarBrand className="ml-20">
         <Image
           className=" rounded-4xl"
@@ -94,11 +94,10 @@ const NavBar: React.FC = () => {
         </NavbarItem>
       </NavbarContent>
       <div className="flex gap-7">
-      <CartIcon />
-      <ButtonFavoris isFavorited={false}/>
-      <ThemeToggle />
+        <CartIcon />
+        <ButtonFavoris isFavorited={false} />
+        <ThemeToggle />
       </div>
-      
     </Navbar>
   );
 };

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Navbar from '../../Components/Header';
-import Footer from '@/Components/Footer';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useTheme } from 'next-themes';
+import React, { useEffect, useState } from "react";
+import Navbar from "../../Components/Header";
+import Footer from "@/Components/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ThemeProvider, useTheme } from "next-themes";
 
 type Props = {
   children: React.ReactNode;
@@ -24,14 +24,12 @@ const Layout = ({ children }: Props) => {
   if (!mounted) return null;
 
   return (
-    <div
-      className={`w-full h-screen flex flex-col items-center ${theme === 'dark' ? 'dark:bg-gray-800' : 'bg-white'}`}
-    >
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <Navbar />
       {children}
       <ToastContainer position="top-right" autoClose={3000} />
       <Footer />
-    </div>
+    </ThemeProvider>
   );
 };
 

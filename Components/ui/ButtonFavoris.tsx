@@ -1,6 +1,3 @@
-// Exemple avec Heroicons
-// import { StarIcon, StarOutlineIcon } from '@heroicons/react/24/outline';
-
 import { Star, StarOff } from "lucide-react";
 
 const FavoriteIcon = ({ isFavorited }: { isFavorited: boolean }) => {

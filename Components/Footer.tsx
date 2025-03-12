@@ -12,7 +12,7 @@ import ButtonCookieSession from "./ButtonCookieSession";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-white text-gray-600 border-t">
+    <footer className="w-full bg-white text-gray-600 border-t dark:bg-gray-700 dark:text-gray-50">
         <div className="container mx-auto px-4 py-8">
             <div className="flex justify-between item-center lg:flex-row  mb-8 md:space-y-4">
                 <Link
