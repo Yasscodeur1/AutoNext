@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Roboto } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 const roboto = Roboto({
   variable: "--font-roboto", 
   subsets: ["latin"],
-  weight: ["400", "700"], 
+  weight: ["400", "500", "700"], 
+  style: ["normal", "italic"],
 });
 
 export default function RootLayout({
@@ -31,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    
     <html lang="fr" >
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}
@@ -40,6 +41,6 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-    </ThemeProvider>
+
   );
 }

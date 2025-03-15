@@ -19,7 +19,7 @@ const SectionOne: React.FC = () => {
     "TOP_NOTCH",
     "CAR",
     "LOCATION",
-    "GUARANTEE",
+    "GARANTEE",
   ];
 
   const caseStudies: CaseStudy[] = [

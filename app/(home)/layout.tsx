@@ -25,12 +25,18 @@ const Layout = ({ children }: Props) => {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <Navbar />
-      {children}
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Footer />
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="bg-background min-h-screen flex flex-col">
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <ToastContainer position="bottom-right" autoClose={3000} />
+            <Footer />
+          </div>
+        </ThemeProvider>
     </ThemeProvider>
   );
 };
 
 export default Layout;
+
+

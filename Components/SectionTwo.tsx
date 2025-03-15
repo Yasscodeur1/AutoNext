@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const SectionTwo = () => {
   return (
-    <div className="text-center m-20 mx-40">
-      <div className="mx-40">
+    <div className="text-center m-20">
+      <div className="">
         <h1 className="text-2xl font-bold">WELCOME TO CARDEALER.BE</h1>
         <p>
           Wie zijn we CarDealer.be is een 100% Belgisch en nationaal platform dat
@@ -21,28 +21,29 @@ const SectionTwo = () => {
           Lees hier meer!
         </p>
       </div>
-      <div className="flex items-center gap-10 mt-20">
-        <div className=" w-150 mx-30">
-          <h1 className="text-2xl font-bold">CAR DEALER SHOWROOM</h1>
-          <p>
-            Vind de beste autodealers bij jou in de buurt op CarDealer.be. Ons
-            platform vereenvoudigt het zoeken door je eenvoudig toegang te geven
-            tot een groot aantal betrouwbare garages, dealers en verkopers.
-            Gebruik onze intuïtieve zoekbalk om je locatie op te geven en ontdek
-            een uitgebreide lijst met verkopers die aan je criteria voldoen.
-            Verken gedetailleerde profielen, lees beoordelingen van andere
-            kopers en neem weloverwogen beslissingen over je volgende
-            autoaankoop. Met CarDealer.be wordt het kopen van een auto een
-            transparante en probleemloze ervaring.
-          </p>
-        </div>
-        <Image
-          src={"/best-bmw-future-concept-cars.jpg"}
-          width={600}
-          height={300}
-          alt={"BMW"}
-        />
-      </div>
+      <div className="flex flex-wrap items-center gap-10 mt-20 md:flex-nowrap">
+  <div className="w-150 ">
+    <h1 className="text-2xl font-bold">CAR DEALER SHOWROOM</h1>
+    <p>
+      Vind de beste autodealers bij jou in de buurt op CarDealer.be. Ons
+      platform vereenvoudigt het zoeken door je eenvoudig toegang te geven
+      tot een groot aantal betrouwbare garages, dealers en verkopers.
+      Gebruik onze intuïtieve zoekbalk om je locatie op te geven en ontdek
+      een uitgebreide lijst met verkopers die aan je criteria voldoen.
+      Verken gedetailleerde profielen, lees beoordelingen van andere kopers
+      en neem weloverwogen beslissingen over je volgende autoaankoop. Met
+      CarDealer.be wordt het kopen van een auto een transparante en
+      probleemloze ervaring.
+    </p>
+  </div>
+  <Image
+    src={"/best-bmw-future-concept-cars.jpg"}
+    width={600}
+    height={300}
+    alt={"BMW"}
+  />
+</div>
+
     </div>
   );
 };

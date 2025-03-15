@@ -8,16 +8,16 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import React from "react";
-import ButtonCookieSession from "./ButtonCookieSession";
+import ButtonCookieSession from "../app/(home)/setting/ButtonCookieSession";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-white text-gray-600 border-t dark:bg-gray-700 dark:text-gray-50">
+    <footer className="w-full bg-white text-gray-600 border-t dark:bg-gray-900 dark:text-gray-50">
         <div className="container mx-auto px-4 py-8">
             <div className="flex justify-between item-center lg:flex-row  mb-8 md:space-y-4">
                 <Link
                     href="/"
-                    className="text-2xl font-bold text-gray-900 mb-4 md:mb-0"
+                    className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 md:mb-0"
                 >
                     CAR DEALER
                 </Link>

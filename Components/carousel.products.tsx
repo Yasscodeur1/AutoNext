@@ -21,9 +21,9 @@ const carBrands: CarBrand[] = [
 // Duplique les logos pour un défilement infini
 const logos = [...carBrands, ...carBrands];
 
-const Carousel = () => {
+const CarouselProducts = () => {
   return (
-    <div className="relative w-full overflow-hidden bg-gray-400 py-6">
+    <div className="hidden sm:block  relative w-full overflow-hidden bg-gray-400 py-6">
       <motion.div
         className="flex w-max flex-nowrap"
         animate={{ x: ["100%", "-100%"] }}
@@ -49,4 +49,4 @@ const Carousel = () => {
   );
 };
 
-export default Carousel;
+export default CarouselProducts;

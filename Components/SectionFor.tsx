@@ -3,7 +3,7 @@ import React from "react";
 export default function SectionFor() {
   return (
     <div className="m-10">
-      <div className="flex justify-center items-center">
+      <div className="flex flex-wrap justify-center items-center md:flex-nowrap">
         <div className="m-20">
           <iframe
             width="564"
@@ -32,7 +32,7 @@ export default function SectionFor() {
           </p>
         </div>
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex flex-wrap items-center justify-center md:flex-nowrap">
         <div>
           <h1 className="text-3xl font-bold m-10">
             MERCEDES_BENZ GLA SYSTEM SPORT

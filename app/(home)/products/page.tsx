@@ -3,19 +3,21 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardContent } from "../../../Components/ui/card";
 import Link from "next/link";
-import HeaderProducts from "@/Components/Header.products";
-import Section2 from "@/Components/carousel.products";
-import Search from "@/Components/Search"; // Vérifie que c'est bien "Search" et pas "search"
+// import HeaderProducts from "@/Components/Header.products";
+// import Carousel from "@/Components/carousel.products";
+import Search from "@/app/(home)/setting/Search";
+import SectionOne from "@/Components/SectionOne";
 
 const CarsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [make_id, setMake_id] = useState("All");
-  const [darkMode, setDarkMode] = useState(false);
-  const [cars, setCars] = useState<typageCar[]>([]);
+  const [makeId, setMakeId] = useState("All");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000000); // Définissez une valeur maximale par défaut appropriée
+  const [cars, setCars] = useState<Car[]>([]);
 
-  interface typageCar {
+  interface Car {
     id: number;
     make_id: string;
     model: string;
@@ -35,13 +37,15 @@ const CarsPage = () => {
       try {
         const response = await fetch("/api/cars");
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`Erreur HTTP ! statut : ${response.status}`);
         }
         const data = await response.json();
+        console.log(data);
+        
         setCars(data);
       } catch (err: any) {
-        console.error("Error fetching cars:", err);
-        setError(`Échec du chargement des voitures : ${err.message}`);
+        console.error("Erreur lors de la récupération des voitures :", err);
+        setError(`Échec du chargement des voitures : ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -50,41 +54,45 @@ const CarsPage = () => {
     fetchCars();
   }, []);
 
-  // Gestion de la recherche
+  // Gérer l'entrée de recherche
   const handleSearch = (query: string) => {
     setSearchTerm(query.toLowerCase());
   };
 
-  // Gestion de la sélection de la marque
+  // Gérer la sélection de la marque
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setMake_id(e.target.value);
+    setMakeId(e.target.value);
   };
 
-  // Filtrage des voitures selon la recherche et la marque
+  // Gérer l'entrée du prix minimum
+  const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMinPrice(Number(e.target.value));
+  };
+
+  // Gérer l'entrée du prix maximum
+  const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxPrice(Number(e.target.value));
+  };
+
+  // Filtrer les voitures en fonction du terme de recherche, de la marque et de la plage de prix
   const filteredCars = cars.filter(
     (car) =>
-      (make_id === "All" || car.make_id === make_id) &&
+      (makeId === "All" || car.make_id === makeId) &&
       (car.make_id.toLowerCase().includes(searchTerm) ||
-        car.model.toLowerCase().includes(searchTerm))
+        car.model.toLowerCase().includes(searchTerm)) &&
+      car.price >= minPrice &&
+      car.price <= maxPrice
   );
 
   return (
     <main>
-      <HeaderProducts />
-      <Section2 />
-
-      {/* Barre de recherche et filtre de marque */}
-      <div className="flex justify-around gap-96 flex-wrap p-4">
-        <Search onSearch={handleSearch} darkMode={darkMode} />
-
+      <SectionOne />
+      <div className="flex justify-around flex-wrap p-4">
+        <Search onSearch={handleSearch} darkMode={false} />
         <select
-          value={make_id}
+          value={makeId}
           onChange={handleSelect}
-          className="p-2 h-15 m-8 rounded"
-          style={{
-            backgroundColor: darkMode ? "#374151" : "white",
-            color: darkMode ? "white" : "black",
-          }}
+          className="p-2 h-15 m-8 rounded dark:bg-gray-700"
         >
           <option value="All">Toutes les marques</option>
           <option value="Toyota">Toyota</option>
@@ -94,9 +102,23 @@ const CarsPage = () => {
           <option value="Mercedes-Benz">Mercedes-Benz</option>
           <option value="Dodge">Dodge</option>
         </select>
+        <div className="flex items-center ">
+          <label className="mr-2">Prix Min :</label>
+          <input
+            type="number"
+            value={minPrice}
+            onChange={handleMinPriceChange}
+            className="p-2 m-2 rounded-2xl dark:bg-gray-700"
+          />
+          <label className="mr-2">Prix Max :</label>
+          <input
+            type="number"
+            value={maxPrice}
+            onChange={handleMaxPriceChange}
+            className="p-2 m-2 rounded-2xl dark:bg-gray-700"
+          />
+        </div>
       </div>
-
-      {/* Affichage des voitures */}
       <div className="container mx-auto p-4">
         <Card className="border-0 shadow-0">
           <CardHeader>
@@ -108,11 +130,11 @@ const CarsPage = () => {
             ) : error ? (
               <p className="text-red-500">{error}</p>
             ) : filteredCars.length > 0 ? (
-              <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {filteredCars.map((car: typageCar) => (
+              <ul className="grid grid-cols-1 md:grid-cols-3 gap-7">
+                {filteredCars.map((car: Car) => (
                   <li
                     key={car.id}
-                    className={`border-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-800`}
+                    className="border-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-800"
                   >
                     <img
                       className="w-full h-84"
@@ -123,9 +145,12 @@ const CarsPage = () => {
                       <h2 className="text-lg font-semibold m-1.5">
                         {car.make_id} - {car.model}
                       </h2>
-                      <p className="text-gray-500 m-1.5">Couleur : {car.color}</p>
-                      <p className="text-gray-500 m-1.5">Prix : ${car.price}</p>
-                      {/* <p className="text-gray-700">{car.description}</p> */}
+                      <p className="text-gray-500 m-1.5">
+                        Couleur : {car.color}
+                      </p>
+                      <p className="text-gray-500 m-1.5">
+                        Prix : ${car.price}
+                      </p>
                       <div className="mt-4 flex justify-between m-1.5">
                         <p className="text-sm text-gray-600">
                           {car.city}, {car.state} {car.postal}
@@ -137,10 +162,10 @@ const CarsPage = () => {
                         </Link>
                       </div>
                       <Link href={`/details/${car.id}`}>
-                          <span className="bg-blue-400 cursor-pointer px-4 py-2 rounded flex justify-center m-1.5">
-                            Add to carte
-                          </span>
-                        </Link>
+                        <span className="bg-blue-400 cursor-pointer px-4 py-2 rounded flex justify-center m-1.5">
+                          Ajouter au panier
+                        </span>
+                      </Link>
                     </div>
                   </li>
                 ))}
@@ -157,4 +182,6 @@ const CarsPage = () => {
   );
 };
 
-export default CarsPage;
+export default CarsPage
+
+ 
