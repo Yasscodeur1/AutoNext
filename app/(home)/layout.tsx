@@ -6,6 +6,8 @@ import Footer from "@/Components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider, useTheme } from "next-themes";
+import { FavoritesProvider } from "../../Components/context/FavoritesContext";
+import { CartProvider } from "@/Components/context/CartContextType";
 
 type Props = {
   children: React.ReactNode;
@@ -24,19 +26,19 @@ const Layout = ({ children }: Props) => {
   if (!mounted) return null;
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="bg-background min-h-screen flex flex-col">
+    <FavoritesProvider>
+      <CartProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="bg-background w-full min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-grow">{children}</main>
             <ToastContainer position="bottom-right" autoClose={3000} />
             <Footer />
           </div>
         </ThemeProvider>
-    </ThemeProvider>
+      </CartProvider>
+    </FavoritesProvider>
   );
 };
 
 export default Layout;
-
-

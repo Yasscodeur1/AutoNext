@@ -1,80 +1,43 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardContent } from "../../../Components/ui/card";
 import Link from "next/link";
-// import HeaderProducts from "@/Components/Header.products";
-// import Carousel from "@/Components/carousel.products";
 import Search from "@/app/(home)/setting/Search";
 import SectionOne from "@/Components/SectionOne";
 
+import useFetchCars, { Car } from "../../../hooks/useFetchCars";
+import { useCart } from "../../../Components/context/CartContextType";
+import { useFavorites } from "../../../Components/context/FavoritesContext";
+import { FiHeart } from "react-icons/fi"; 
+
+
 const CarsPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [makeId, setMakeId] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000000); // Définissez une valeur maximale par défaut appropriée
-  const [cars, setCars] = useState<Car[]>([]);
+  const [maxPrice, setMaxPrice] = useState(1000000);
 
-  interface Car {
-    id: number;
-    make_id: string;
-    model: string;
-    year: number;
-    price: number;
-    isAvailable: boolean;
-    color?: string;
-    city: string;
-    state: string;
-    postal: string;
-    description: string;
-    image: string;
-  }
+  const { favorites, toggleFavorite } = useFavorites();
+  const { cars, loading, error } = useFetchCars();
+  const { addToCart } = useCart(); 
 
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const response = await fetch("/api/cars");
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP ! statut : ${response.status}`);
-        }
-        const data = await response.json();
-        console.log(data);
-        
-        setCars(data);
-      } catch (err: any) {
-        console.error("Erreur lors de la récupération des voitures :", err);
-        setError(`Échec du chargement des voitures : ${err.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCars();
-  }, []);
-
-  // Gérer l'entrée de recherche
   const handleSearch = (query: string) => {
     setSearchTerm(query.toLowerCase());
   };
 
-  // Gérer la sélection de la marque
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMakeId(e.target.value);
   };
 
-  // Gérer l'entrée du prix minimum
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMinPrice(Number(e.target.value));
   };
 
-  // Gérer l'entrée du prix maximum
   const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaxPrice(Number(e.target.value));
   };
 
-  // Filtrer les voitures en fonction du terme de recherche, de la marque et de la plage de prix
   const filteredCars = cars.filter(
     (car) =>
       (makeId === "All" || car.make_id === makeId) &&
@@ -102,15 +65,15 @@ const CarsPage = () => {
           <option value="Mercedes-Benz">Mercedes-Benz</option>
           <option value="Dodge">Dodge</option>
         </select>
-        <div className="flex items-center ">
-          <label className="mr-2">Prix Min :</label>
+        <div className="flex items-center">
+          <label className="mr-2">Prix Min :</label>
           <input
             type="number"
             value={minPrice}
             onChange={handleMinPriceChange}
             className="p-2 m-2 rounded-2xl dark:bg-gray-700"
           />
-          <label className="mr-2">Prix Max :</label>
+          <label className="mr-2">Prix Max :</label>
           <input
             type="number"
             value={maxPrice}
@@ -128,7 +91,7 @@ const CarsPage = () => {
             {loading ? (
               <p>Chargement en cours...</p>
             ) : error ? (
-              <p className="text-red-500">{error}</p>
+              <p className="text-red-500">Erreur : {error}</p>
             ) : filteredCars.length > 0 ? (
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-7">
                 {filteredCars.map((car: Car) => (
@@ -146,26 +109,32 @@ const CarsPage = () => {
                         {car.make_id} - {car.model}
                       </h2>
                       <p className="text-gray-500 m-1.5">
-                        Couleur : {car.color}
+                        Couleur : {car.color}
                       </p>
-                      <p className="text-gray-500 m-1.5">
-                        Prix : ${car.price}
-                      </p>
+                      <p className="text-gray-500 m-1.5">Prix : ${car.price}</p>
                       <div className="mt-4 flex justify-between m-1.5">
                         <p className="text-sm text-gray-600">
                           {car.city}, {car.state} {car.postal}
                         </p>
-                        <Link href={`/details/${car.id}`}>
+                        <Link href={`/details/${car.id}`} aria-label={`Voir les détails de ${car.make_id} ${car.model}`}>
                           <span className="underline cursor-pointer px-4 py-2 rounded">
                             Détails
                           </span>
                         </Link>
+                        <button
+                          onClick={() => toggleFavorite(car.id)}
+                          aria-label={favorites.includes(car.id) ? "Retirer des favoris" : "Ajouter aux favoris"}
+                        >
+                          <FiHeart className={`cursor-pointer ${favorites.includes(car.id) ? "text-red-500" : "text-gray-500"}`} />
+                        </button>
                       </div>
-                      <Link href={`/details/${car.id}`}>
-                        <span className="bg-blue-400 cursor-pointer px-4 py-2 rounded flex justify-center m-1.5">
-                          Ajouter au panier
-                        </span>
-                      </Link>
+                      <button
+                        className="bg-blue-400 cursor-pointer px-4 py-2 rounded flex justify-center m-1.5"
+                        onClick={() => addToCart(car)}
+                        aria-label={`Ajouter ${car.make_id} ${car.model} au panier`}
+                      >
+                        Ajouter au panier
+                      </button>
                     </div>
                   </li>
                 ))}
@@ -182,6 +151,4 @@ const CarsPage = () => {
   );
 };
 
-export default CarsPage
-
- 
+export default CarsPage;

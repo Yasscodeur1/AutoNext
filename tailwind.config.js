@@ -7,7 +7,15 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}', // Et tes composants
   ],
   theme: {
-    extend: {},
+    extend: {
+      background:{
+        "gradient-radial":"radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      colors:{
+        lama: "#F35C7"
+      }
+    },
   },
   plugins: [
     // Ajoute des plugins si nécessaire

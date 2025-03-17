@@ -11,21 +11,24 @@ import {
   Button,
 } from "@heroui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import CartIcon from "./ui/carteIcon";
-import ThemeToggle from "./ButtonDarkMode";
-import ButtonFavoris from "./ui/ButtonFavoris";
-import { Search } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
+import SearchBar from "./SearchBar";
+import NavIcons from "./NavIcons";
 
 const NavBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+
+  const handleSearch = (query: string) => {
+    setSearchTerm(query.toLowerCase());
+  };
 
   const links = [
     { name: "Home", path: "/" },
     { name: "Products", path: "/products" },
     { name: "Details", path: "/details" },
     { name: "Contact", path: "/contact" },
-    // { name: "Login", path: "/dashboard/FormData" },
-    // { name: "Sign up", path: "/dashboard/FormData" },
   ];
 
   const toggleMenu = () => {
@@ -33,7 +36,7 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <Navbar className="flex justify-between fixed top-0 left-0 w-full z-50 bg-gray-50  dark:bg-gray-900 dark:text-gray-50 shadow-md backdrop-blur-md">
+    <Navbar className="flex justify-between fixed top-0 left-0 w-full z-50 bg-gray-50  dark:bg-transparent dark:text-gray-50 shadow-md backdrop-blur-md">
       <NavbarBrand className="ml-20">
         <Image
           className=" rounded-4xl"
@@ -60,9 +63,9 @@ const NavBar: React.FC = () => {
         className={`lg:hidden absolute top-full left-0 w-full bg-gray-50  dark:bg-gray-900 dark:text-gray-50 shadow-md transition-all duration-300 transform z-40 ${
           isMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
-        style={{ maxHeight: "calc(100vh - 56px)" }}
+        style={{ maxHeight: "calc(100vh - 50px)" }}
       >
-        <div className="flex flex-col items-center p-5">
+        <div className="flex flex-col items-center p-12">
           {links.map((link, index) => (
             <NavbarItem key={index}>
               <Link
@@ -78,7 +81,7 @@ const NavBar: React.FC = () => {
       </div>
 
       {/* Menu Desktop */}
-      <NavbarContent className="hidden lg:flex gap-4 p-5 dark:bg-gray-900 dark:text-gray-50" justify="center">
+      <NavbarContent className="hidden lg:flex gap-4 p-5 dark:bg-transparent dark:text-gray-50" justify="center">
         <NavbarItem>
           {links.map((link, index) => (
             <Link
@@ -94,13 +97,13 @@ const NavBar: React.FC = () => {
           ))}
         </NavbarItem>
       </NavbarContent>
-      <div className="flex gap-7">
-        <Search/>
-        <Link rel="stylesheet" href="/login" >
-        Login
-        </Link>
-        <CartIcon />
-        <ButtonFavoris isFavorited={false} />
+      <div className="w-2/3 flex items-center justify-end gap-8 md:flex-wrap">
+        <SearchBar onSearch={handleSearch} />
+        <p className="text-sm text-gray-500">Recherche en cours: {searchTerm}</p>
+
+        <NavIcons/>
+        
+        
         <ThemeToggle />
       </div>
     </Navbar>
@@ -108,3 +111,5 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
+
+

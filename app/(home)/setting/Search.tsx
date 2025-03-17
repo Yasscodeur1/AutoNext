@@ -27,12 +27,14 @@ const Search: React.FC<SearchProps> = ({ onSearch, darkMode }) => {
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        
         sx={{
           width: 250,
-          backgroundColor: darkMode ? "#374151" : "#364254",
-          borderRadius: "10px",
+          height:50,
+          backgroundColor: darkMode ? "#374151" : "#fff",
+          borderRadius: "1rem",
           "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: focused ? "#2a5766" : "gray" },
+            // "& fieldset": { borderColor: focused ? "#2a5766" : "gray" },
             "&:hover fieldset": { borderColor: "#2563eb" },
             "&.Mui-focused fieldset": { borderColor: "#364254" },
           },

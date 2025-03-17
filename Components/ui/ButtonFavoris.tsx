@@ -1,16 +1,11 @@
-import { Star, StarOff } from "lucide-react";
+import React from 'react';
 
-const FavoriteIcon = ({ isFavorited }: { isFavorited: boolean }) => {
+const ButtonFavoris = ({ isFavorited, onClick }) => {
   return (
-    <div>
-      {isFavorited ? (
-        <Star className="h-6 w-6 text-yellow-500 " />
-      ) : (
-        <StarOff className="h-6 w-6 text-gray-500 dark:text-white" />
-      )}
-    </div>
+    <button onClick={onClick}>
+      {isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+    </button>
   );
 };
 
-export default FavoriteIcon;
-
+export default ButtonFavoris;

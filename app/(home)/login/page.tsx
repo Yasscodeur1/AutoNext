@@ -10,8 +10,21 @@ export default function AuthForm() {
         email: "",
         password: "",
     });
+    const [isLoeding, setIsLoading] = useState(false)
     const [message, setMessage] = useState("");
     const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+
+    // const formTitle = isSignup === isSignup.login ? "Log in" : isSignup === isSignup.register ? "Register" : isSignup === isSignup.reset_password ? "Reset Your Password" : "Verify Your Email"
+    // const buttonTitle = 
+    // isSignup === isSignup.login 
+    // ? "Login" 
+    // : isSignup === isSignup.register 
+    // ? "Register" 
+    // : isSignup === isSignup.reset_password 
+    // ? "Reset" 
+    // : "Verify"
+
+    // const sixClient = useWixClient()
 
     // Charger les données du localStorage lors du montage du composant
     useEffect(() => {
