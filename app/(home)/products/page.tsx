@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, CardHeader, CardContent } from "../../../components/ui/card";
+import { Card, CardHeader, CardContent } from "../../../Components/ui/card";
 import Link from "next/link";
 import Search from "@/app/(home)/setting/Search";
 import useFetchCars, { Car } from "../../../hooks/useFetchCars";
-import { useCart } from "../../../components/context/CartContextType";
-import { useFavorites } from "../../../components/context/FavoritesContext";
+import { useCart } from "../../../Components/context/CartContextType";
+import { useFavorites } from "../../../Components/context/FavoritesContext";
 import { FiHeart } from "react-icons/fi"; 
-import HeaderProducts from "@/components/Header.products";
+import HeaderProducts from "../../../Components/Header.products";
 
 
 const CarsPage = () => {

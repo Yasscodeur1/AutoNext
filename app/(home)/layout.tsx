@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Header";
-import Footer from "@/components/Footer";
+import Navbar from "../../Components/Header";
+import Footer from "../../Components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider, useTheme } from "next-themes";
-import { FavoritesProvider } from "../../components/context/FavoritesContext";
-import { CartProvider } from "@/components/context/CartContextType";
-import { AuthProvider } from "../../components/context/AuthContext";
+import { FavoritesProvider } from "../../Components/context/FavoritesContext";
+import { CartProvider } from "../../Components/context/CartContextType";
+import { AuthProvider } from "../../Components/context/AuthContext";
 
 type Props = {
   children: React.ReactNode;
