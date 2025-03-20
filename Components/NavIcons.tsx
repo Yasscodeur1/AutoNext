@@ -2,12 +2,15 @@
 
 import Link from "next/link"; // Correction ici
 import { useRouter } from "next/navigation"; // Correction ici
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import CartModal from "./CartModal";
 import { MdFavorite } from "react-icons/md";
 import FavoritesModal from "./FavoritesModal";
+// import { useCart } from "./context/CartContextType";
+import { useFavorites } from "./context/FavoritesContext";
+import { useCart } from "./context/CartContextType";
 
 export default function NavIcons() {
   const [isProfileOpen, setIsProfileOpen] = useState(false); // Ajout d'un état pour le profile
@@ -15,7 +18,39 @@ export default function NavIcons() {
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
   const router = useRouter();
+  const { cart } = useCart();
+  const { favorites } = useFavorites();
+
   const isLoggedIn = true;
+
+  const profileRef = useRef<HTMLDivElement>(null);
+  const cartRef = useRef<HTMLDivElement>(null);
+  const favoritesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileRef.current && !profileRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileOpen(false);
+      }
+      if (
+        cartRef.current && !cartRef.current.contains(event.target as Node)
+      ) {
+        setIsCartOpen(false);
+      }
+      if (
+        favoritesRef.current && !favoritesRef.current.contains(event.target as Node)
+      ) {
+        setIsFavoritesOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleProfile = () => {
     if (!isLoggedIn) {
@@ -48,22 +83,27 @@ export default function NavIcons() {
             className="cursor-pointer text-xl"
             onClick={() => setIsCartOpen((prev: any) => !prev)}
             />
+            {cart.length > 0 && (
             <div className="absolute -top-4 -right-4 w-6 h-6 rounded-full bg-gray-400 text-white text-sm flex items-center justify-center">
-
+            {cart.length}
             </div>
+            )}
         </div>
-        {isCartOpen && <CartModal />}
+        {isCartOpen && <CartModal onClose={() => setIsCartOpen(false)}/>}
 
         {/* icons Favorites */}
-        <div>
-            <MdFavorite 
-            className="cursor-pointer text-xl"
-            onClick={() => setIsFavoritesOpen((prev: any) => !prev)}
-            />
-            
-        </div>
-            {isFavoritesOpen && 
-            <FavoritesModal />} 
+        <div ref={favoritesRef} className="relative cursor-pointer">
+        <MdFavorite
+          className="cursor-pointer text-xl"
+          onClick={() => setIsFavoritesOpen((prev) => !prev)}
+        />
+        {favorites.length > 0 && (
+          <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
+            {favorites.length}
+          </div>
+        )}
+        {isFavoritesOpen && <FavoritesModal onClose={() => setIsFavoritesOpen(false)} />}
+      </div>
       
     </div>
   );

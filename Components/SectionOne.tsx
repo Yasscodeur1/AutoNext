@@ -89,7 +89,7 @@ const SectionOne: React.FC = () => {
       <div className="h-full overflow-hidden">
         <Image
           src={caseStudies[activeIndex].imageUrl}
-          className="w-full min-h-full object-cover"
+          className="w-full  object-cover"
           alt="Background"
           layout="fill"
           objectFit="cover"

@@ -1,15 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, CardHeader, CardContent } from "../../../Components/ui/card";
+import { Card, CardHeader, CardContent } from "../../../components/ui/card";
 import Link from "next/link";
 import Search from "@/app/(home)/setting/Search";
-import SectionOne from "@/Components/SectionOne";
-
 import useFetchCars, { Car } from "../../../hooks/useFetchCars";
-import { useCart } from "../../../Components/context/CartContextType";
-import { useFavorites } from "../../../Components/context/FavoritesContext";
+import { useCart } from "../../../components/context/CartContextType";
+import { useFavorites } from "../../../components/context/FavoritesContext";
 import { FiHeart } from "react-icons/fi"; 
+import HeaderProducts from "@/components/Header.products";
 
 
 const CarsPage = () => {
@@ -17,7 +16,6 @@ const CarsPage = () => {
   const [makeId, setMakeId] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000000);
-
   const { favorites, toggleFavorite } = useFavorites();
   const { cars, loading, error } = useFetchCars();
   const { addToCart } = useCart(); 
@@ -49,7 +47,7 @@ const CarsPage = () => {
 
   return (
     <main>
-      <SectionOne />
+      <HeaderProducts/> 
       <div className="flex justify-around flex-wrap p-4">
         <Search onSearch={handleSearch} darkMode={false} />
         <select
@@ -152,3 +150,4 @@ const CarsPage = () => {
 };
 
 export default CarsPage;
+

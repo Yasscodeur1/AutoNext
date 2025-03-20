@@ -3,11 +3,12 @@ import React from "react";
 export default function SectionFor() {
   return (
     <div className="m-10">
-      <div className="flex flex-wrap justify-center items-center md:flex-nowrap">
+      <div className="flex flex-wrap justify-center items-center lg:flex-nowrap xl:flex-nowrap">
         <div className="m-20">
           <iframe
-            width="564"
-            height="317"
+            // className="sm:w-80"
+            // width="564"
+            // height="317"
             src="https://www.youtube.com/embed/rymDPObhsJc"
             title="2021 NOUVEAU DACIA JOGGER - Vidéo de présentation de notre voiture familiale"
             frameBorder="0"
@@ -32,7 +33,7 @@ export default function SectionFor() {
           </p>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center md:flex-nowrap">
+      <div className="flex flex-wrap items-center justify-center lg:flex-nowrap xl:flex-nowrap">
         <div>
           <h1 className="text-3xl font-bold m-10">
             MERCEDES_BENZ GLA SYSTEM SPORT
@@ -46,8 +47,8 @@ export default function SectionFor() {
         </div>
         <div className="m-20">
           <iframe
-            width="564"
-            height="317"
+            // width="564"
+            // height="317"
             src="https://www.youtube.com/embed/uZi0SbKykLs"
             title="2021 NOUVEAU DACIA JOGGER - Vidéo de présentation de notre voiture familiale"
             frameBorder="0"

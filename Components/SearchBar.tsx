@@ -1,21 +1,22 @@
 "use client";
-console.log("SearchBar rendu !");
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { IoMdSearch } from "react-icons/io";
 
 interface SearchBarProps {
-  onSearch: (query: string) => void
+  onSearch: (query: string) => void;
 }
-
-export default function SearchBar({onSearch}: SearchBarProps) {
+// export default function SearchBar({onSearch}: SearchBarProps) {
+export default function SearchBar() {
   const [query, setQuery] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("handleSubmit appelé");
     e.preventDefault();
-    console.log("Recherche soumise :", query); 
-    onSearch(query);
+    if (query.trim()) {
+      router.push(`/search?query=${encodeURIComponent(query)}`);
+    }
   };
 
   return (
@@ -29,19 +30,14 @@ export default function SearchBar({onSearch}: SearchBarProps) {
         placeholder="Rechercher une marque, un modèle..."
         className="bg-transparent outline-none dark:text-gray-100 px-2"
         value={query}
-        // onChange={(e) => setQuery(e.target.value)}
-        onChange={(e) => {
-          console.log("Valeur de l'input :", e.target.value);
-          setQuery(e.target.value);
-        }}
+        onChange={(e) => setQuery(e.target.value)}
       />
-      <button type="submit"  className="cursor-pointer text-gray-500 hover:text-gray-700"
-      onClick={() => console.log("Bouton cliqué")}
+      <button
+        type="submit"
+        className="cursor-pointer text-gray-500 hover:text-gray-700"
       >
-
         <IoMdSearch size={24} />
       </button>
     </form>
   );
 }
-

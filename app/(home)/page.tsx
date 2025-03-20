@@ -1,24 +1,24 @@
-import CarouselProducts from "@/Components/carousel.products";
-import HeaderProducts from "@/Components/Header.products";
-import SectionFor from "@/Components/SectionFor";
-// import SectionOne from "@/Components/SectionOne";
-import SectionTree from "@/Components/SectionTree";
-import SectionTwo from "@/Components/SectionTwo";
-import ForwardElement from "../../Components/forward.element";
+// import CarouselProducts from "@/components/carousel.products";
+// import HeaderProducts from "@/components/Header.products";
+import SectionFor from "@/components/SectionFor";
+import SectionTree from "@/components/SectionTree";
+import SectionTwo from "@/components/SectionTwo";
+import ForwardElement from "../../components/forward.element";
+import Carousel from "@/components/Carousel";
+
 
 export default function Home() {
 
-
-
   return (
     <main>
-      <HeaderProducts/>
+      {/* <HeaderProducts/> */}
+      <Carousel fallbackCars={[]} />
       <ForwardElement/>
-      {/* <SectionOne/> */}
+
       <SectionTwo/>
       <SectionTree/>
       <SectionFor/>
-      <CarouselProducts/>
+      {/* <CarouselProducts/> */}
     </main>
   );
 }

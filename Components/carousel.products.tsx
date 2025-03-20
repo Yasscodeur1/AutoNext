@@ -23,7 +23,7 @@ const logos = [...carBrands, ...carBrands];
 
 const CarouselProducts = () => {
   return (
-    <div className="hidden sm:block  relative w-full overflow-hidden bg-gray-400 py-6">
+    <div className="hidden sm:block  relative w-full overflow-hidden bg-gray-400 py-6 ml-0 mr-0">
       <motion.div
         className="flex w-max flex-nowrap"
         animate={{ x: ["100%", "-100%"] }}

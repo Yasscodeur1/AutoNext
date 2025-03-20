@@ -49,7 +49,7 @@ export default function AuthForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        let errors: { [key: string]: string } = {};
+        const errors: { [key: string]: string } = {};
 
         if (!validateEmail(formData.email)) {
             errors.email = "Adresse email invalide.";

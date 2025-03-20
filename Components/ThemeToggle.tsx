@@ -19,7 +19,7 @@ const ThemeToggle = () => {
     return (
       <button
         onClick={handleClick}
-        className="p-2 bg-gray-200 dark:bg-gray-800 rounded-lg"
+        className="p-2 bg-gray-200 dark:bg-gray-800 rounded-lg mr-7"
       >
         {theme === 'light' ? (
           <FaMoon className="text-gray-800 dark:text-white" /> // Icône de lune pour le mode sombre

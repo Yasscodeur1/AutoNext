@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Navbar from "../../Components/Header";
-import Footer from "@/Components/Footer";
+import Navbar from "../../components/Header";
+import Footer from "@/components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider, useTheme } from "next-themes";
-import { FavoritesProvider } from "../../Components/context/FavoritesContext";
-import { CartProvider } from "@/Components/context/CartContextType";
+import { FavoritesProvider } from "../../components/context/FavoritesContext";
+import { CartProvider } from "@/components/context/CartContextType";
+import { AuthProvider } from "../../components/context/AuthContext";
 
 type Props = {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme(); // Récupère le thème actuel (light ou dark)
+  // const { theme } = useTheme(); // Récupère le thème actuel (light ou dark)
 
   // Pour éviter l'erreur de SSR, on attend que le composant soit monté côté client
   useEffect(() => {
@@ -26,18 +27,22 @@ const Layout = ({ children }: Props) => {
   if (!mounted) return null;
 
   return (
-    <FavoritesProvider>
-      <CartProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="bg-background w-full min-h-screen flex flex-col">
-            <Navbar />
-            <main className="flex-grow">{children}</main>
-            <ToastContainer position="bottom-right" autoClose={3000} />
-            <Footer />
-          </div>
-        </ThemeProvider>
-      </CartProvider>
-    </FavoritesProvider>
+    <AuthProvider>
+      <FavoritesProvider>
+        <CartProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <div className="bg-background w-full min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow pt-[80px] mx-10">
+                {children}
+              </main>
+              <ToastContainer position="bottom-right" autoClose={3000} />
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </CartProvider>
+      </FavoritesProvider>
+    </AuthProvider>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import ThemedButton from "@/components/ui/ThemedButton";
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -30,9 +30,8 @@ const Search: React.FC<SearchProps> = ({ onSearch, darkMode }) => {
         
         sx={{
           width: 250,
-          height:50,
           backgroundColor: darkMode ? "#374151" : "#fff",
-          borderRadius: "1rem",
+          border:"none",
           "& .MuiOutlinedInput-root": {
             // "& fieldset": { borderColor: focused ? "#2a5766" : "gray" },
             "&:hover fieldset": { borderColor: "#2563eb" },
@@ -43,20 +42,11 @@ const Search: React.FC<SearchProps> = ({ onSearch, darkMode }) => {
           },
         }}
       />
-      <Button
-        type="submit"
-        variant="contained"
-        sx={{
-          backgroundColor: "#3b82f6",
-          "&:hover": { backgroundColor: "#2563eb" },
-          borderRadius: "8px",
-          padding: "10px 20px",
-        }}
-      >
-        Search
-      </Button>
+      <ThemedButton/>
     </form>
   );
 };
 
 export default Search;
+
+

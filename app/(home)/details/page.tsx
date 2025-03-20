@@ -1,111 +1,150 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Card, CardHeader, CardContent } from '@/Components/ui/card';
+import React, { ReactNode, useState } from "react";
+import SideBar from "@/components/SideBar";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import useFetchCars from "@/hooks/useFetchCars";
+import Link from "next/link";
 
-interface CarDetails {
-  id: number;
-  make_id: string;
-  model: string;
-  year: number;
-  vin: string;
-  color?: string;
-  price: number;
-  city: string;
-  state: string;
-  postal: number;
-  longitude: number;
-  latitude: number;
-  description: string;
-  seller: string;
-  'seller-name': string;
-  image: string;
-  image_thumb: string;
-}
+export default function CarDetailsPage() {
+  const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
+  const { cars, loading, error } = useFetchCars();
 
-const CarDetailsPage = () => {
-  const searchParams = useSearchParams();
-  const id = searchParams.get('id');
-  const [car, setCar] = useState<CarDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchCarDetails = async () => {
-      try {
-        const response = await fetch(`/api/cars/${id}`);
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP ! statut : ${response.status}`);
-        }
-        const data: CarDetails = await response.json();
-        setCar(data);
-      } catch (err: any) {
-        console.error('Erreur lors de la récupération des détails de la voiture :', err);
-        setError(`Échec du chargement des détails de la voiture : ${err.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) {
-      fetchCarDetails();
-    }
-  }, [id]);
+  const handleCarSelect = (carId: string) => {
+    setSelectedCarId(carId);
+  };
 
   if (loading) {
-    return <p>Chargement en cours...</p>;
+    return (
+      <div className="flex justify-center items-center h-[50rem] mt-10">
+        <div className="container">
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </div>
+
+        <style jsx>{`
+          .container {
+            --uib-size: 35px;
+            --uib-color: black;
+            --uib-speed: 1s;
+            --uib-stroke: 3.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: var(--uib-size);
+            height: calc(var(--uib-size) * 0.9);
+          }
+
+          .bar {
+            width: var(--uib-stroke);
+            height: 100%;
+            background-color: var(--uib-color);
+            transition: background-color 0.3s ease;
+          }
+
+          .bar:nth-child(1) {
+            animation: grow var(--uib-speed) ease-in-out
+              calc(var(--uib-speed) * -0.45) infinite;
+          }
+
+          .bar:nth-child(2) {
+            animation: grow var(--uib-speed) ease-in-out
+              calc(var(--uib-speed) * -0.3) infinite;
+          }
+
+          .bar:nth-child(3) {
+            animation: grow var(--uib-speed) ease-in-out
+              calc(var(--uib-speed) * -0.15) infinite;
+          }
+
+          .bar:nth-child(4) {
+            animation: grow var(--uib-speed) ease-in-out infinite;
+          }
+
+          @keyframes grow {
+            0%,
+            100% {
+              transform: scaleY(0.3);
+            }
+
+            50% {
+              transform: scaleY(1);
+            }
+          }
+        `}</style>
+      </div>
+    );
   }
 
   if (error) {
     return <p className="text-red-500">{error}</p>;
   }
 
-  if (!car) {
-    return <p>Voiture non trouvée.</p>;
+  if (!cars || cars.length === 0) {
+    return <p>Aucune voiture trouvée.</p>;
   }
 
-  return (
-    <div className="container mx-auto p-4">
-      <Card>
-        <CardHeader>
-          <h1 className="text-2xl font-bold">
-            {car.make_id} - {car.model}
-          </h1>
-        </CardHeader>
-        <CardContent>
-          <img src={car.image} alt={car.model} className="w-full h-84 object-cover mb-4" />
-          <p>
-            <strong>Année :</strong> {car.year}
-          </p>
-          <p>
-            <strong>VIN :</strong> {car.vin}
-          </p>
-          <p>
-            <strong>Couleur :</strong> {car.color}
-          </p>
-          <p>
-            <strong>Prix :</strong> ${car.price}
-          </p>
-          <p>
-            <strong>Ville :</strong> {car.city}
-          </p>
-          <p>
-            <strong>État :</strong> {car.state}
-          </p>
-          <p>
-            <strong>Code postal :</strong> {car.postal}
-          </p>
-          <p>
-            <strong>Description :</strong> {car.description}
-          </p>
-          <p>
-            <strong>Vendeur :</strong> {car['seller-name']} ({car.seller})
-          </p>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
+  const selectedCar = cars.find((car) => car.id.toString() === selectedCarId);
 
-export default CarDetailsPage;
+  return (
+    <div className="container w-full lg:w-2/3 xl:w-3/4 3xl:w-5/6 mb-10 grid md:grid-cols-2 lg:grid-cols-1 mt-10 md:ml-0 lg:ml-80 xl:ml-80 shadow-md shadow-gray-100">
+  <SideBar onCarSelect={handleCarSelect} />
+  <Card className="py-0 border-0">
+    {selectedCar && (
+      <div key={selectedCar.id} className="shadow-md rounded-xl">
+        <CardHeader className="p-6 flex flex-row justify-between">
+          <div>
+            <h1 className="text-2xl font-bold mb-4">
+              {selectedCar.make_id} {selectedCar.model} ({selectedCar.year})
+            </h1>
+            <p className="text-lg text-gray-600">${selectedCar.price}</p>
+          </div>
+          <Link href="/contact">
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Contacter le vendeur
+            </button>
+          </Link>
+        </CardHeader>
+        <CardContent className="p-6">
+          <img
+            src={selectedCar.image}
+            alt={selectedCar.model}
+            className="w-full h-80 object-cover rounded-lg mb-6"
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Caractéristiques</h2>
+              <ul className="list-disc list-inside">
+                <li>
+                  <strong>Couleur:</strong> {selectedCar.color || "N/A"}
+                </li>
+                <li>
+                  <strong>VIN:</strong> {selectedCar.vin}
+                </li>
+                <li>
+                  <strong>Localisation:</strong> {selectedCar.city}, {selectedCar.state} {selectedCar.postal}
+                </li>
+                <li>
+                  <strong>GPS:</strong> {selectedCar.longitude}, {selectedCar.latitude}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Description</h2>
+              <p className="text-gray-700">{selectedCar.description}</p>
+              <h2 className="text-xl font-semibold mt-4">Vendeur</h2>
+              <p className="text-gray-700">
+                {selectedCar["seller-name"]} ({selectedCar.seller})
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </div>
+    )}
+    {!selectedCar && selectedCarId && <p>Voiture non trouvée</p>}
+  </Card>
+</div>
+  );
+}
