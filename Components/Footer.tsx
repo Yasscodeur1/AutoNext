@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import ButtonCookieSession from "../app/(home)/setting/ButtonCookieSession";
-import CarouselProducts from "./carousel.products";
+import CarouselProducts from "./Carousel.products";
 
 const Footer = () => {
   return (

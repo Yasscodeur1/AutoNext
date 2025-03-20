@@ -1,7 +1,7 @@
 // import CarouselProducts from "@/components/carousel.products";
 // import HeaderProducts from "@/components/Header.products";
 import SectionFor from "@/components/SectionFor";
-import SectionTree from "@/components/SectionTree";
+import SectionTree from "@/Components/SectionTree";
 import SectionTwo from "@/components/SectionTwo";
 import ForwardElement from "../../components/forward.element";
 import Carousel from "@/components/Carousel";
