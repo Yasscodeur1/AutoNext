@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = () => setIsLoggedIn(true);
   const logout = () => setIsLoggedIn(false);
+  
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
@@ -29,3 +30,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+

@@ -1,15 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, CardHeader, CardContent } from "../../../Components/ui/card";
+import { Card, CardHeader, CardContent } from "../../../components/ui/card";
 import Link from "next/link";
-import Search from "@/app/(home)/setting/Search";
+import Search from "../../../components/Search";
 import useFetchCars, { Car } from "../../../hooks/useFetchCars";
-import { useCart } from "../../../Components/context/CartContextType";
-import { useFavorites } from "../../../Components/context/FavoritesContext";
-import { FiHeart } from "react-icons/fi"; 
-import HeaderProducts from "../../../Components/Header.products";
-
+import { useCart } from "../../../components/context/CartContextType";
+import { useFavorites } from "../../../components/context/FavoritesContext";
+import { FiHeart } from "react-icons/fi";
+import HeaderProducts from "../../../components/Header.products";
 
 const CarsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,7 +17,8 @@ const CarsPage = () => {
   const [maxPrice, setMaxPrice] = useState(1000000);
   const { favorites, toggleFavorite } = useFavorites();
   const { cars, loading, error } = useFetchCars();
-  const { addToCart } = useCart(); 
+  const { addToCart } = useCart();
+  const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
 
   const handleSearch = (query: string) => {
     setSearchTerm(query.toLowerCase());
@@ -36,6 +36,10 @@ const CarsPage = () => {
     setMaxPrice(Number(e.target.value));
   };
 
+  const handleCarSelect = (carId: string) => {
+    setSelectedCarId(carId);
+  };
+
   const filteredCars = cars.filter(
     (car) =>
       (makeId === "All" || car.make_id === makeId) &&
@@ -46,9 +50,9 @@ const CarsPage = () => {
   );
 
   return (
-    <main>
-      <HeaderProducts/> 
-      <div className="flex justify-around flex-wrap p-4">
+    <>
+      <HeaderProducts />
+      <div className="flex items-center justify-around flex-wrap p-4">
         <Search onSearch={handleSearch} darkMode={false} />
         <select
           value={makeId}
@@ -63,7 +67,7 @@ const CarsPage = () => {
           <option value="Mercedes-Benz">Mercedes-Benz</option>
           <option value="Dodge">Dodge</option>
         </select>
-        <div className="flex items-center">
+        <div className="flex flex-col items-center ">
           <label className="mr-2">Prix Min :</label>
           <input
             type="number"
@@ -80,7 +84,7 @@ const CarsPage = () => {
           />
         </div>
       </div>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 2xl:mx-40">
         <Card className="border-0 shadow-0">
           <CardHeader>
             <h1 className="text-2xl font-bold">Voitures disponibles</h1>
@@ -91,7 +95,7 @@ const CarsPage = () => {
             ) : error ? (
               <p className="text-red-500">Erreur : {error}</p>
             ) : filteredCars.length > 0 ? (
-              <ul className="grid grid-cols-1 md:grid-cols-3 gap-7">
+              <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 2xl:w-520 gap-7">
                 {filteredCars.map((car: Car) => (
                   <li
                     key={car.id}
@@ -114,16 +118,30 @@ const CarsPage = () => {
                         <p className="text-sm text-gray-600">
                           {car.city}, {car.state} {car.postal}
                         </p>
-                        <Link href={`/details/${car.id}`} aria-label={`Voir les détails de ${car.make_id} ${car.model}`}>
+                        <Link
+                          href={`/products/${car.id}`}
+                          aria-label={`Voir les détails de ${car.make_id} ${car.model}`}
+                        >
                           <span className="underline cursor-pointer px-4 py-2 rounded">
                             Détails
                           </span>
                         </Link>
+
                         <button
                           onClick={() => toggleFavorite(car.id)}
-                          aria-label={favorites.includes(car.id) ? "Retirer des favoris" : "Ajouter aux favoris"}
+                          aria-label={
+                            favorites.includes(car.id)
+                              ? "Retirer des favoris"
+                              : "Ajouter aux favoris"
+                          }
                         >
-                          <FiHeart className={`cursor-pointer ${favorites.includes(car.id) ? "text-red-500" : "text-gray-500"}`} />
+                          <FiHeart
+                            className={`cursor-pointer ${
+                              favorites.includes(car.id)
+                                ? "text-red-500"
+                                : "text-gray-500"
+                            }`}
+                          />
                         </button>
                       </div>
                       <button
@@ -145,9 +163,8 @@ const CarsPage = () => {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </>
   );
 };
 
 export default CarsPage;
-

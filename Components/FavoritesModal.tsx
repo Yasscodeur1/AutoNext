@@ -1,5 +1,5 @@
 import React from "react";
-import { useFavorites } from "../Components/context/FavoritesContext";
+import { useFavorites } from "./context/FavoritesContext";
 import useFetchCars from "../hooks/useFetchCars";
 import { FiX } from "react-icons/fi";
 

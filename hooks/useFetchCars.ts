@@ -20,6 +20,7 @@ export interface Car {
   city: string;
   state: string;
   postal: string;
+  "seller-name": string;
 }
 
 export default function useFetchCars(): { cars: Car[]; loading: boolean; error: string | null } {

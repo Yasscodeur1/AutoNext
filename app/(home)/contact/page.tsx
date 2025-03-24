@@ -1,6 +1,6 @@
 "use client"
 
-import ContactForm from '../../../Components/ContactForm'
+import ContactForm from '../../../components/ContactForm'
 import { Badge } from 'lucide-react'
 import React from 'react'
 

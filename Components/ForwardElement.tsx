@@ -28,7 +28,7 @@ export default function ForwardElement() {
         const sortedData = data.sort((a, b) => a.price - b.price);
         setCars(sortedData);
         //afficher les 5 premier voiture
-        setCars(data.slice(0, 5)); // Récupère les cinq premières voitures
+        setCars(data.slice(0, 4)); // Récupère les cinq premières voitures
       } catch (err: any) {
         console.error("Error fetching cars:", err);
         setError(`Échec du chargement des voitures : ${err.message}`);
@@ -49,7 +49,7 @@ export default function ForwardElement() {
   </div>
   <div className="overflow-hidden flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 w-full m-0 p-0 min-h-64">
     {cars.length > 0 ? (
-      <div className="flex  items-center justify-center flex-wrap gap-4"> 
+      <div className="flex  items-center justify-center flex-wrap gap-5 lg-mb-5 xl:mb-5 "> 
         {cars.map((car) => (
           <div
             key={car.id}

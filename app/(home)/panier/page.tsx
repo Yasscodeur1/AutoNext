@@ -1,19 +1,47 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useCart } from "../../../components/context/CartContextType";
 import { FiX, FiTrash2 } from "react-icons/fi";
 import { useAuth } from "../../../components/context/AuthContext"; 
+import { useRouter } from "next/navigation";
 
 interface CartPageProps {
   onClose: () => void;
+  clearCart: () => void;
 }
 
 export default function CartPage({ onClose }: CartPageProps): React.JSX.Element {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, clearCart } = useCart();
   const { isLoggedIn } = useAuth(); 
   const totalPrice = cart.reduce((total, car) => total + car.price, 0);
+  const router = useRouter();
+  const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
+  const [isCartClosed, setIsCartClosed] = useState(false);
+
+  // Handle closing and redirecting to /products page
+  const handleCloseAndRedirect = () => {
+    if (onClose) {
+      onClose(); // Appelez onClose si elle est définie
+    }
+   setIsCartClosed(true); // exemple d'état local
+    router.push("/products"); // Redirigez vers /products
+  };
+
+  // Fonction pour gérer le paiement
+  const handlePayment = () => {
+    if (isLoggedIn) {
+      clearCart();  // Vide le panier
+      setPaymentMessage("Paiement accepté !");
+
+      // Affiche le message pendant 3 secondes puis le cache
+      setTimeout(() => {
+        setPaymentMessage(null);  // Efface le message après 3 secondes
+        router.push("/products"); // Redirige vers la page des produits après paiement
+      }, 3000);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -21,7 +49,7 @@ export default function CartPage({ onClose }: CartPageProps): React.JSX.Element 
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Votre panier</h2>
           <button
-            onClick={onClose}
+            onClick={handleCloseAndRedirect}
             className="text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
             aria-label="Fermer le panier"
           >
@@ -30,8 +58,15 @@ export default function CartPage({ onClose }: CartPageProps): React.JSX.Element 
         </div>
 
         {cart.length === 0 ? (
-          <div className="text-gray-500 text-center py-10">Votre panier est vide</div>
-        ) : (
+          <div className="text-gray-500 text-center py-10">
+            {paymentMessage && (
+              <div className="mt-4 text-green-600 font-semibold text-center">
+                {paymentMessage}
+              </div>
+            )}
+            Votre panier est vide
+            </div>
+        ) :  (
           <div className="space-y-4 max-h-80 overflow-y-auto">
             {cart.map((car) => (
               <div key={car.id} className="flex gap-4 items-center border-b pb-3">
@@ -69,6 +104,7 @@ export default function CartPage({ onClose }: CartPageProps): React.JSX.Element 
               </span>
             </div>
             <button
+              onClick={handlePayment}
               disabled={!isLoggedIn}
               className={`w-full py-3 rounded-xl text-lg font-semibold transition ${
                 isLoggedIn
@@ -78,6 +114,11 @@ export default function CartPage({ onClose }: CartPageProps): React.JSX.Element 
             >
               {isLoggedIn ? "Valider la commande" : "Connectez-vous pour payer"}
             </button>
+            {paymentMessage && (
+              <div className="mt-4 text-green-600 font-semibold text-center">
+              {paymentMessage}
+            </div>
+            )}
           </div>
         )}
       </div>

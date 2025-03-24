@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAuth } from "../../../components/context/AuthContext";
 
 export default function AuthForm() {
     const [isSignup, setIsSignup] = useState(true);
@@ -10,9 +11,11 @@ export default function AuthForm() {
         email: "",
         password: "",
     });
-    const [isLoeding, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [message, setMessage] = useState("");
     const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+    const { login } = useAuth();
+    
 
     // const formTitle = isSignup === isSignup.login ? "Log in" : isSignup === isSignup.register ? "Register" : isSignup === isSignup.reset_password ? "Reset Your Password" : "Verify Your Email"
     // const buttonTitle = 
@@ -64,6 +67,7 @@ export default function AuthForm() {
 
             if (!isSignup) {
                 setMessage("Vous êtes connecté(e) !");
+                login();
             } else {
                 setMessage("Inscription réussie !");
             }

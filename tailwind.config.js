@@ -2,7 +2,7 @@
 module.exports = {
   darkMode: 'class', // Optionnel, si tu veux gérer le mode sombre via une classe
   content: [
-    './app/Components/Header.tsx', // Assure-toi d'ajouter le chemin de tes fichiers
+    './app/**/*.{js,ts,jsx,tsx}', // Assure-toi d'ajouter le chemin de tes fichiers
     './pages/**/*.{js,ts,jsx,tsx}', // Idem pour les pages
     './components/**/*.{js,ts,jsx,tsx}', // Et tes composants
   ],

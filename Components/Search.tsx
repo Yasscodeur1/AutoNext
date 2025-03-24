@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import ThemedButton from "@/components/ui/ThemedButton";
+import ThemedButton from "./ui/ThemedButton";
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -18,7 +18,7 @@ const Search: React.FC<SearchProps> = ({ onSearch, darkMode }) => {
   };
 
   return (
-    <form onSubmit={handleSearch} className="m-8 flex items-center gap-5">
+    <form onSubmit={handleSearch} className="sm:m-0 md:m-0 lg:m-8 xl:m-8 sx:flex-wrap md:flex items-center gap-5">
       <TextField
         type="text"
         label="Rechercher une voiture..."
@@ -42,7 +42,7 @@ const Search: React.FC<SearchProps> = ({ onSearch, darkMode }) => {
           },
         }}
       />
-      <ThemedButton/>
+      <ThemedButton />
     </form>
   );
 };
